@@ -1,7 +1,5 @@
 package com.github.ktonga.reactiveturtle
 
-import com.github.ktonga.reactiveturtle.Commands._
-
 object TurtleShapesExample extends App with TurtleRC with Shapes {
 
   def commands: Seq[Command] =
@@ -10,7 +8,7 @@ object TurtleShapesExample extends App with TurtleRC with Shapes {
       Seq(square(50), circle(5), spiral(20))
     )
 
-  syncRun(commands)
+  runAllAndWait(commands)
   system.shutdown()
 
 }

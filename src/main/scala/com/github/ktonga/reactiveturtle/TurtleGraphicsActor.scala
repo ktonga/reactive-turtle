@@ -1,7 +1,6 @@
 package com.github.ktonga.reactiveturtle
 
 import akka.actor.{Props, Actor}
-import Commands._
 
 object TurtleGraphicsActor {
 

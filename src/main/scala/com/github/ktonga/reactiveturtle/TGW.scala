@@ -2,8 +2,8 @@ package com.github.ktonga.reactiveturtle
 
 import org.bfoit.tg.TurtleGraphicsWindow
 
-class TGW(width: Int, height: Int) extends TurtleGraphicsWindow(width, height) {
-  import Commands._
+class TGW(width: Int, height: Int)
+  extends TurtleGraphicsWindow(width, height) {
 
   def execute(command: Command) = command match {
     case Clean => clean()
