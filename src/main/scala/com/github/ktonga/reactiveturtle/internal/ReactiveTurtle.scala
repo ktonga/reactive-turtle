@@ -1,4 +1,4 @@
-package com.github.ktonga.reactiveturtle
+package com.github.ktonga.reactiveturtle.internal
 
 import akka.actor.ActorSystem
 import com.typesafe.config.ConfigFactory

@@ -1,15 +1,15 @@
-package com.github.ktonga.reactiveturtle
+package com.github.ktonga.reactiveturtle.example
 
-object TurtleShapesExample extends App with TurtleRC with Shapes {
+import com.github.ktonga.reactiveturtle._
+import Commands._
+
+object ScalaAppExample extends ScalaApp with Shapes {
 
   def commands: Seq[Command] =
     layout(
       Seq((200, 200), (400, 200), (300, 400)),
       Seq(square(50), circle(5), spiral(20))
     )
-
-  runAllAndWait(commands)
-  system.shutdown()
 
 }
 

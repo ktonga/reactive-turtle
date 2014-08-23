@@ -1,3 +1,4 @@
+import spray.revolver.AppProcess
 
 name := """reactive-turtle"""
 
@@ -13,10 +14,15 @@ libraryDependencies ++= Seq(
 
 Revolver.settings
 
-mainClass in Revolver.reStart := Some("com.github.ktonga.reactiveturtle.ReactiveTurtle")
+mainClass in Revolver.reStart := Some("com.github.ktonga.reactiveturtle.internal.ReactiveTurtle")
 
 initialCommands in console :=
   """
     |import com.github.ktonga.reactiveturtle._
+    |import Commands._
     |import TurtleRC._
   """.stripMargin
+
+addCommandAlias("tg-start", "re-start")
+
+addCommandAlias("tg-stop", "re-stop")

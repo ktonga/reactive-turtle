@@ -3,6 +3,7 @@ package com.github.ktonga.reactiveturtle
 import akka.actor.ActorSystem
 import akka.pattern.ask
 import akka.util.Timeout
+import com.github.ktonga.reactiveturtle.internal.TurtleGraphicsActor
 import com.typesafe.config.ConfigFactory
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
@@ -14,6 +15,9 @@ trait TGRef {
 
   implicit val system = ActorSystem("turtle-rc", ConfigFactory.load("turtle-rc"))
   val tgRefFtr = system.actorSelection(remotePath).resolveOne(10.seconds)
+
+  def shutdown() = system.shutdown()
+
 }
 
 trait TurtleRC extends TGRef {
@@ -40,3 +44,10 @@ object TurtleRC extends TurtleRC {
 
 }
 
+trait ScalaApp extends App with TurtleRC {
+
+  def commands: Seq[Command]
+
+  runAllAndWait(commands)
+  shutdown()
+}

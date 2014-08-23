@@ -1,6 +1,7 @@
-package com.github.ktonga.reactiveturtle
+package com.github.ktonga.reactiveturtle.internal
 
-import akka.actor.{Props, Actor}
+import akka.actor.{Actor, Props}
+import com.github.ktonga.reactiveturtle.Command
 
 object TurtleGraphicsActor {
 
@@ -13,7 +14,7 @@ object TurtleGraphicsActor {
 }
 
 class TurtleGraphicsActor extends Actor {
-  import TurtleGraphicsActor._
+  import com.github.ktonga.reactiveturtle.internal.TurtleGraphicsActor._
 
   val tgw = TGW(600, 600)
 

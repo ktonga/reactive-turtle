@@ -1,6 +1,8 @@
-package com.github.ktonga.reactiveturtle
+package com.github.ktonga.reactiveturtle.internal
 
+import com.github.ktonga.reactiveturtle._
 import org.bfoit.tg.TurtleGraphicsWindow
+import Commands._
 
 class TGW(width: Int, height: Int)
   extends TurtleGraphicsWindow(width, height) {
