@@ -29,7 +29,7 @@ trait TurtleRC extends TGRef {
 
   def run(commands: Command*): Future[State] = runAll(commands)
 
-  def runAllAndWait(commands: Seq[Command]): State =  Await.result(runAll(commands), Duration.Inf)
+  def runAllAndWait(commands: Seq[Command]): State =  await(runAll(commands))
 
   def runAndWait(commands: Command*): State = runAllAndWait(commands)
 
@@ -38,7 +38,9 @@ trait TurtleRC extends TGRef {
     tgRefFtr flatMap { ref => (ref ? GetState).mapTo[State] }
   }
 
-  def awaitState: State = Await.result(getState, Duration.Inf)
+  def awaitState: State = await(getState)
+
+  def await[T](ftr: Future[T]): T = Await.result(ftr, Duration.Inf)
 }
 
 object TurtleRC extends TurtleRC {
