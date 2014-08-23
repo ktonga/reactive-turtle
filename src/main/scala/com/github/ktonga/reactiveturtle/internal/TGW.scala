@@ -9,16 +9,24 @@ class TGW(width: Int, height: Int)
 
   def execute(command: Command) = command match {
     case Clean => clean()
+    case Home => home()
     case PenDown => pendown()
     case PenUp => penup()
     case Forward(steps) => forward(steps)
+    case Back(steps) => back(steps)
     case Right(degrees) => right(degrees)
+    case Left(degrees) => left(degrees)
+    case SetX(x) => setx(x2tg(x))
+    case SetY(y) => sety(y2tg(y))
     case SetXY(x, y) => setxy(x2tg(x), y2tg(y))
+    case Heading(degrees) => setheading(degrees)
+    case PenSize(penWidth) => setpensize(penWidth)
   }
 
   private def x2tg(x: Int) = x - (width / 2)
   private def y2tg(y: Int) = -(y - (height / 2))
 
+  def tgState = State(width, height, xcor(), ycor(), heading(), ispendown(), pensize())
 }
 
 object TGW {

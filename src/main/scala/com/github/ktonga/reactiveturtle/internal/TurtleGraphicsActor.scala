@@ -6,25 +6,23 @@ import com.github.ktonga.reactiveturtle.Command
 object TurtleGraphicsActor {
 
   // Protocol
-  case class Execute(command: Command)
-  case class ExecuteAll(commands: Seq[Command])
+  case class Execute(commands: Seq[Command])
+  case object GetState
 
   // Props
-  def props: Props = Props[TurtleGraphicsActor]
+  def props(width:Int, height: Int): Props = Props(new TurtleGraphicsActor(width, height))
 }
 
-class TurtleGraphicsActor extends Actor {
+class TurtleGraphicsActor(width: Int, height: Int) extends Actor {
   import com.github.ktonga.reactiveturtle.internal.TurtleGraphicsActor._
 
-  val tgw = TGW(600, 600)
+  val tgw = TGW(width, height)
 
   override def receive: Receive = {
-    case Execute(cmd) =>
-      tgw.execute(cmd)
-      sender ! "OK"
-    case ExecuteAll(cmds) =>
+    case Execute(cmds) =>
       cmds.foreach(tgw.execute)
-      sender ! "OK"
+      sender ! tgw.tgState
+    case GetState => sender ! tgw.tgState
   }
 
 }

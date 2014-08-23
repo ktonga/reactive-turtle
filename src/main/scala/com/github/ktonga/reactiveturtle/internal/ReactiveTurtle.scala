@@ -7,6 +7,11 @@ object ReactiveTurtle extends App {
 
   implicit val system = ActorSystem("reactive-turtle", ConfigFactory.load("reactive-turtle"))
 
-  system.actorOf(TurtleGraphicsActor.props, "tg")
+  val (width, height) = args.toList match {
+    case w :: h :: Nil => (w.toInt, h.toInt)
+    case _ => (600, 600)
+  }
+
+  system.actorOf(TurtleGraphicsActor.props(width, height), "tg")
 
 }

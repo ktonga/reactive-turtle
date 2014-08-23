@@ -22,17 +22,23 @@ trait TGRef {
 
 trait TurtleRC extends TGRef {
 
-  def runAll(commands: Seq[Command]): Future[String] = {
+  def runAll(commands: Seq[Command]): Future[State] = {
     implicit val askTimeout: Timeout = 1.minute
-    tgRefFtr flatMap { ref => (ref ? ExecuteAll(commands)).mapTo[String] }
+    tgRefFtr flatMap { ref => (ref ? Execute(commands)).mapTo[State] }
   }
 
-  def run(commands: Command*): Future[String] = runAll(commands)
+  def run(commands: Command*): Future[State] = runAll(commands)
 
-  def runAllAndWait(commands: Seq[Command]): String =  Await.result(runAll(commands), Duration.Inf)
+  def runAllAndWait(commands: Seq[Command]): State =  Await.result(runAll(commands), Duration.Inf)
 
-  def runAndWait(commands: Command*): String =  runAllAndWait(commands)
+  def runAndWait(commands: Command*): State = runAllAndWait(commands)
 
+  def getState: Future[State] = {
+    implicit val askTimeout: Timeout = 1.minute
+    tgRefFtr flatMap { ref => (ref ? GetState).mapTo[State] }
+  }
+
+  def awaitState: State = Await.result(getState, Duration.Inf)
 }
 
 object TurtleRC extends TurtleRC {
