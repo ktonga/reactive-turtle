@@ -1,6 +1,6 @@
 package com.github.ktonga.reactiveturtle
 
-import akka.actor.ActorSystem
+import akka.actor._
 import akka.pattern.ask
 import akka.util.Timeout
 import com.github.ktonga.reactiveturtle.internal.TurtleGraphicsActor
@@ -13,7 +13,9 @@ import TurtleGraphicsActor._
 trait TGRef {
   val remotePath = "akka.tcp://reactive-turtle@127.0.0.1:2552/user/tg"
 
-  implicit val system = ActorSystem("turtle-rc", ConfigFactory.load("turtle-rc"))
+  def configName = "turtle-rc"
+
+  implicit val system = ActorSystem("turtle-rc", ConfigFactory.load(configName))
   val tgRefFtr = system.actorSelection(remotePath).resolveOne(10.seconds)
 
   def shutdown() = system.shutdown()
@@ -58,4 +60,25 @@ trait ScalaApp extends App with TurtleRC {
 
   runAllAndWait(commands)
   shutdown()
+}
+
+trait AkkaApp extends App with TGRef {
+
+  def props: Props
+
+  val commandsRef = system.actorOf(props, "commands")
+
+  val finisher = system.actorOf(Props(new Actor {
+    def receive: Receive = {
+      case watched: ActorRef => context.watch(watched)
+      case Terminated(_) => context.system.shutdown()
+    }
+  }), "finisher")
+
+  finisher ! commandsRef
+
+  tgRefFtr onSuccess {
+    case tgRef => tgRef.tell(GetState, commandsRef)
+  }
+
 }

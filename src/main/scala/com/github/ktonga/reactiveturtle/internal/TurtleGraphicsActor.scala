@@ -22,6 +22,9 @@ class TurtleGraphicsActor(width: Int, height: Int) extends Actor {
     case Execute(cmds) =>
       cmds.foreach(tgw.execute)
       sender ! tgw.tgState
+    case cmd: Command =>
+      tgw.execute(cmd)
+      sender ! tgw.tgState
     case GetState => sender ! tgw.tgState
   }
 

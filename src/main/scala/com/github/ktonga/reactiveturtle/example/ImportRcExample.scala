@@ -14,7 +14,7 @@ object ImportRcExample extends App {
 
   await(
     for {
-      State(w, h, _, _, _, _, _) <- runAll( withPenUp( SetXY(0, 0), PenSize(8) ))
+      State(Canvas(w, h), _) <- runAll( withPenUp( SetXY(0, 0), PenSize(8) ))
       _ <- run( SetXY(w, h) )
       _ <- runAll( withPenUp( SetY(0) ))
       state <- run( SetXY(0, h) )
@@ -22,4 +22,5 @@ object ImportRcExample extends App {
   )
 
   runAllAndWait( withPenUp( Home, Forward(50) ))
+  shutdown()
 }

@@ -25,8 +25,14 @@ class TGW(width: Int, height: Int)
 
   private def x2tg(x: Int) = x - (width / 2)
   private def y2tg(y: Int) = -(y - (height / 2))
+  private def tg2x(x: Int) = x + (width / 2)
+  private def tg2y(y: Int) = (height / 2) - y
 
-  def tgState = State(width, height, xcor(), ycor(), heading(), ispendown(), pensize())
+  def tgState = State(
+    Canvas(width, height),
+    Turtle(tg2x(xcor()), tg2y(ycor()), heading().toInt, ispendown(), pensize())
+  )
+
 }
 
 object TGW {

@@ -20,8 +20,9 @@ package object reactiveturtle {
     case class PenSize(penWidth: Int) extends Command
   }
 
-  case class State(width: Int, height: Int,
-                   x: Int, y: Int, heading: Double,
+  case class Canvas(width: Int, height: Int)
+  case class Turtle(x: Int, y: Int, heading: Int,
                    penDown: Boolean, penSize: Int)
+  case class State(canvas: Canvas, turtle: Turtle)
 
 }
