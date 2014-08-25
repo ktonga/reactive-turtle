@@ -23,6 +23,11 @@ initialCommands in console :=
     |import TurtleRC._
   """.stripMargin
 
+cleanupCommands in console :=
+  """
+    |shutdown()
+  """.stripMargin
+
 addCommandAlias("tg-start", "re-start")
 
 addCommandAlias("tg-stop", "re-stop")
