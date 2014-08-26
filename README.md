@@ -19,7 +19,7 @@ cd reactive-turtle
 sbt compile
 ```
 
-Playing with the Turlte
+Playing with the Turtle
 -----------------------
 
 ### Start the Turtle Graphics (TG) Window
