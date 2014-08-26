@@ -10,6 +10,36 @@ Teach Typesafe Stack (Scala and Akka) to the kids the the funny way
   - Define your program based on Akka Actors
   - Use the IDE of your choise. Vim + SBT, REPL, Idea, Eclipse, etc.
 
+The Story
+---------
+
+This, is a story, about a father and his son, then about the father the father the father, and then again his son.
+
+#### The father and his son part
+
+I have a son called Elian, he’s 10 and he’s very smart, so I decided to teach him programming.
+Obviously I love him, so I choose to go for **Scala**. 
+I started with some basics, vals and defs for doing some maths, but it quickly became boring so my son lost the interest.
+
+The first thing that came to my mind was LOGO, playing with the turtle is great for learning programming. Since I use KDE (that’s why the K stand for in my nickname ktonga) I’ve installed KTurtle, it’s a nice educational app, but sadly as every LOGO’s clone out there, it’s based on an imperative language. And I wanted to teach my son FP.
+
+
+#### So this is the father the father the father part of the story
+
+I started researching turtle programming environments, I found many for Java and a very nice one for Scala, but with a pretty imperative approach, so I didn’t like it.
+
+I decided to create my own, but I didn’t want to focus in the IDE part as all the rest does. So much effort on syntax highlight, auto-complete, errors marks, etc.. Nothing of that is needed since lot of environments already exist that do it fantastically.
+I was lucky, and one of the Java based environments has a standalone graphics part which I use to command remotely from a program developed in the IDE of my choice.
+
+The idea of reactive turtle is to command the turtle in a functional way, so I designed a minimal API to separate the program’s instructions from the side effects (moving the turtle). You can compose pure functions to create a list of commands which then will be run by the turtle
+
+#### The son part again
+
+Once I finished, I resumed the teaching to my son again.
+
+Try it out and let me know what you think!
+
+
 Get Started
 -----------
 
