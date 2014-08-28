@@ -2,6 +2,8 @@
 /logs/
 /tags
 
+/src/main/java/
+
 ### Scala template
 *.class
 *.log
