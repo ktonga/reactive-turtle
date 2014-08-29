@@ -1,7 +1,7 @@
 reactive-turtle
 ===============
 
-Teach Typesafe Stack (Scala and Akka) to the kids the the funny way
+Teach Typesafe Stack (Scala and Akka) to the kids the funny way
 
   - Launch the Turtle Graphics in a separate window
   - Command the Turtle from a separate JVM with the Remote Control
@@ -17,8 +17,8 @@ This, is a story, about a father and his son, then about the father the father t
 
 #### The father and his son part
 
-I have a son called Elian, he’s 10 and he’s very smart, so I decided to teach him programming.
-Obviously I love him, so I choose to go for **Scala**. 
+I have a son called Elian, he’s 11 and he’s very smart, so I decided to teach him programming.
+Obviously I love him, so I choose to go with **Scala**. 
 I started with some basics, vals and defs for doing some maths, but it quickly became boring so my son lost the interest.
 
 The first thing that came to my mind was LOGO, playing with the turtle is great for learning programming. Since I use KDE (that’s why the K stand for in my nickname ktonga) I’ve installed KTurtle, it’s a nice educational app, but sadly as every LOGO’s clone out there, it’s based on an imperative language. And I wanted to teach my son FP.
@@ -96,7 +96,7 @@ You can take a look at [`TurtleRC`](https://github.com/ktonga/reactive-turtle/bl
 
 ### Functional Programming in Scala with the Turtle
 
-I'm using the [Turtle Graphics](http://www.bfoit.org/itp/JavaTurtleGraphics.html) implemented by [BFOIT](http://www.bfoit.org/) which is done in Java, obviously in imperative programming, so all the turtle methods have side-effects. But thanks to a piece of advice from the excelent book [Functional Programming in Scala](http://www.manning.com/bjarnason/) writen by @pchiusano and @runarorama I've separated the program's logic from the movements that actually has to do the turtle at the end of the program.
+I'm using the [Turtle Graphics](http://www.bfoit.org/itp/JavaTurtleGraphics.html) implemented by [BFOIT](http://www.bfoit.org/) which is done in Java, obviously in imperative programming, so all the turtle methods have side-effects. But thanks to a piece of advice from the excelent book [Functional Programming in Scala](http://manning.com/FunctionalProgramminginScala) writen by @pchiusano and @runarorama I've separated the program's logic from the movements that actually has to do the turtle at the end of the program.
 
 You will be able to define the `Seq[Command]` composing all the pure functions you want. For writting your Turtle Scala Program you have to extend the [ScalaApp](src/main/scala/com/github/ktonga/reactiveturtle/rc.scala) trait and implement the `def commands: Seq[Command]` method.
 
@@ -145,7 +145,7 @@ You can run your programs, or any of the included [examples](src/main/scala/com/
 
 ### hAkking with the Turtle
 
-Once your son becomes a Scala expert, you can introduce him into the wonderful world of [Akka](http://akka.io/). The TG is represented by an `Actor` and you'll have to implement your own `Actor` to interact with the TG, sending Commands and receiving [`States`](src/main/scala/com/github/ktonga/reactiveturtle/package.scala). The way to do it, is extending the [`AkkaApp`](src/main/scala/com/github/ktonga/reactiveturtle/rc.scala) trait, defining the `Actor` and implementing the `def props: Props` method which must return a `Props` of your `Actor`. The first message the `Actor` will receive will be a `State` case class and the sender will be the TG `Actor`. The program ends when your `Actor` terminates.
+Once your child becomes a Scala expert, you can introduce him/her into the wonderful world of [Akka](http://akka.io/). The TG is represented by an `Actor` and you'll have to implement your own `Actor` to interact with the TG, sending Commands and receiving [`States`](src/main/scala/com/github/ktonga/reactiveturtle/package.scala). The way to do it, is extending the [`AkkaApp`](src/main/scala/com/github/ktonga/reactiveturtle/rc.scala) trait, defining the `Actor` and implementing the `def props: Props` method which must return a `Props` of your `Actor`. The first message the `Actor` will receive will be a `State` case class and the sender will be the TG `Actor`. The program ends when your `Actor` terminates.
 
 ```scala
 package com.github.ktonga.reactiveturtle.example
@@ -202,4 +202,4 @@ The way for running it is the same as for the Scala example.
 
 ### Ready!
 
-Now, enjoy of quality time with your son.
+Now, enjoy of quality time with your children.
