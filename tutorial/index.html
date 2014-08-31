@@ -1,0 +1,186 @@
+<html>
+<head>
+<title>Reactive Turtle</title>
+</head>
+<body>
+<div>
+  <h2>Introduction</h2>
+
+  <p>
+  This template sets up a sandbox project so the kids can learn Functional Programming while they play drawing with the turtle.
+  </p>
+  <p>
+  With the created project you will be able to:
+  </p>
+  <ul>
+    <li>Launch the Turtle Graphics in a separate window</li>
+    <li>Command the Turtle from a separate JVM with the Remote Control</li>
+    <li>Defer side-effects to the very end of the program</li>
+    <li>Define your program in a Functional way composing simple Functions</li>
+    <li>Define your program based on Akka Actors</li>
+    <li>Use the IDE of your choise. Vim + Activator Shell, REPL, Idea, Eclipse, etc.</li>
+  </ul>
+  <p>
+  <strong>Note: </strong>This tutorial explains how to work with the Activator Shell. If you are working with an IDE you can launch all de App objects with your IDE's mechanism.
+  </p>
+
+</div>
+<div>
+  <h2>Start the Turtle Graphics (TG) Window</h2>
+
+  <p>
+  The first you need to do in order to use <code>Reactive Turtle</code> is to start the TG, it will open a window with the canvas and will start listening for remote <code>Commands</code>. You do it by launching the Activator Shell and executing the task <code>tg-start</code>. It will run in a background JVM and will return back the Activator Shell prompt. Optionaly you can specify width and height args. They are 600 600 by default.
+  </p>
+
+  <pre><code>
+activator
+[info] Set current project to reactive-turtle
+> tg-start 500 500
+  </code></pre>
+
+  <p>
+  You can terminate it, closing the window or executing the task <code>tg-stop</code> in the Activator Shell.
+  </p>
+
+  <pre><code>
+> tg-stop
+  </code></pre>
+
+  <img src="tutorial/activator-tg-start.png">
+</div>
+<div>
+  <h2>Scripting with the Turtle</h2>
+  <p>
+  We have the turtle, now we want to tell it some movements. The fastest way to start commanding the turtle is by launching the Scala REPL. You can do it right in the Activator Shell session you have open for the TG window. Execute the console task, it will start with all the needed imports already evaluated.<br/>
+  You have many ways to send Commands to the turtle, the easiest ones are the synchronous. When you'r done with the console, type <code>:q</code> for going back to Activator Shell prompt.
+  </p>
+  <pre><code>
+// run var args Commands
+runAndWait(SetXY(100, 400), Clean)
+
+// run a Seq of Commands
+val commands = Seq.fill(4)(Seq(Forward(300), Right(90))).flatten
+runAllAndWait(commands)
+
+// run a single Command
+PenUp.rnw
+Home.rnw
+  </code></pre>
+  <p>
+  You can take a look at <a href="#code/src/main/scala/com/github/ktonga/reactiveturtle/rc.scala" class="shorcut"><code>TurtleRC</code></a> trait for available methods and <a href="#code/src/main/scala/com/github/ktonga/reactiveturtle/package.scala" class="shorcut"><code>Commands</code></a> object for available commands.
+  </p>
+  <img src="tutorial/console.png">
+</div>
+<div>
+  <h2>Functional Programming in Scala with the Turtle</h2>
+  <p>
+  I'm using the <a href="http://www.bfoit.org/itp/JavaTurtleGraphics.html">Turtle Graphics</a> implemented by <a href="http://www.bfoit.org/">BFOIT</a> which is done in Java, obviously in imperative programming, so all the turtle methods have side-effects. But thanks to a piece of advice from the excelent book <a href="http://manning.com/FunctionalProgramminginScala">Functional Programming in Scala</a> writen by @pchiusano and @runarorama I've separated the program's logic from the movements that actually has to do the turtle at the end of the program.
+  </p>
+  <p>
+  You will be able to define the <code>Seq[Command]</code> composing all the pure functions you want. For writting your Turtle Scala Program you have to extend the <a href="#code/src/main/scala/com/github/ktonga/reactiveturtle/rc.scala" class="shorcut"><code>ScalaApp</code></a> trait and implement the <code>def commands: Seq[Command]</code> method.
+  </p>
+  <pre><code>
+package com.github.ktonga.reactiveturtle.example
+
+import com.github.ktonga.reactiveturtle._
+import Commands._
+
+object ScalaAppExample extends ScalaApp with Shapes {
+
+  def commands: Seq[Command] =
+    layout(
+      Seq((200, 200), (400, 200), (300, 400)),
+      Seq(square(50), circle(5), spiral(20))
+    )
+
+}
+
+trait Shapes {
+
+  type Shape = Seq[Command]
+
+  def square(size: Int): Shape = {
+    (1 to 4).flatMap(_ => Seq(Forward(size), Right(90)))
+  }
+
+  def spiral(size: Int): Shape = {
+    (1 to 100).flatMap(a => Seq(Forward(size), Right(110 - a)))
+  }
+
+  def circle(size: Int): Shape = {
+    (1 to 90).flatMap(a => Seq(Forward(size), Right(4)))
+  }
+
+  def layout(points: Seq[(Int, Int)], shapes: Seq[Shape]): Seq[Command] =
+    points.zip(shapes).flatMap {case ((x, y), cmds) => PenUp +: SetXY(x, y) +: PenDown +: cmds}
+
+}
+
+  </code></pre>
+  <p>
+  You can run your programs, or any of the included <a href="#code/src/main/scala/com/github/ktonga/reactiveturtle/example" class="shorcut">examples</a>, executing the <code>run</code> task in the Activator Shell session and chosing one from the list.
+  </p>
+  <img src="tutorial/run-scala.png">
+</div>
+<div>
+  <h2>hAkking with the Turtle</h2>
+  <p>
+  Once your child becomes a Scala expert, you can introduce him/her into the wonderful world of <a href="http://akka.io/">Akka</a>. The TG is represented by an <code>Actor</code> and you'll have to implement your own <code>Actor</code> to interact with the TG, sending Commands and receiving <a href="#code/src/main/scala/com/github/ktonga/reactiveturtle/package.scala" class="shorcut"><code>States</code></a>. The way to do it, is extending the <a href="#code/src/main/scala/com/github/ktonga/reactiveturtle/rc.scala" class="shorcut"><code>AkkaApp</code></a> trait, defining the <code>Actor</code> and implementing the <code>def props: Props</code> method which must return a <code>Props</code> of your <code>Actor</code>. The first message the <code>Actor</code> will receive will be a <code>State</code> case class and the sender will be the TG <code>Actor</code>. The program ends when your <code>Actor</code> terminates.
+  </p>
+  <pre><code>
+package com.github.ktonga.reactiveturtle.example
+
+import akka.actor.{PoisonPill, Actor, Props}
+import com.github.ktonga.reactiveturtle._
+import internal.TurtleGraphicsActor.Execute
+import Commands._
+
+
+object AkkaAppExample extends AkkaApp {
+  override def props: Props = Props[CommandsActor]
+}
+
+class CommandsActor extends Actor {
+
+  val step = 5
+  val inclination = 5
+
+  val heading2right = 90 + inclination
+  val heading2left = 270 - inclination
+
+  def receive: Receive = {
+    case state @ State(Canvas(w, _), _) =>
+      sender ! Execute(Seq(Clean, PenUp, SetXY(0, 0), PenDown, Heading(heading2right)))
+      context.become(left2right(w))
+  }
+
+  val right2left = moving(x => x - step <= 0) {
+    sender ! Heading(heading2right)
+    context.unbecome()
+  }
+
+  def left2right(w: Int) = moving(x => x + step >= w) {
+    sender ! Heading(heading2left)
+    context.become(right2left, discardOld = false)
+  }
+
+  def moving(stop: Int => Boolean)(next: => Unit): Receive = {
+    case State(Canvas(_, h), Turtle(_, y, _, _, _)) if y + 10 >= h =>
+      self ! PoisonPill
+    case State(_, Turtle(x, _, _, _, _)) if stop(x) =>
+      next
+    case s =>
+      sender ! Forward(step)
+  }
+}
+
+  </code></pre>
+  <p>
+  You can run this in the same way as for the Scala example.
+  </p>
+  <img src="tutorial/run-akka.png">
+
+</div>
+</body>
+</html>
+

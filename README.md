@@ -68,7 +68,7 @@ You can terminate it, closing the window or executing the task `tg-stop` in the 
 > tg-stop
 ```
 
-![tg-start](https://raw.githubusercontent.com/ktonga/reactive-turtle/master/screenshots/tg-start.png)
+![tg-start](https://raw.githubusercontent.com/ktonga/reactive-turtle/master/tutorial/tg-start.png)
 
 
 ### Scripting with the Turtle
@@ -91,7 +91,7 @@ Home.rnw
 
 You can take a look at [`TurtleRC`](https://github.com/ktonga/reactive-turtle/blob/master/src/main/scala/com/github/ktonga/reactiveturtle/rc.scala) trait for available methods and [`Commands`](https://github.com/ktonga/reactive-turtle/blob/master/src/main/scala/com/github/ktonga/reactiveturtle/package.scala) object for available commands.
 
-![tg-start](https://raw.githubusercontent.com/ktonga/reactive-turtle/master/screenshots/console.png)
+![tg-start](https://raw.githubusercontent.com/ktonga/reactive-turtle/master/tutorial/console.png)
 
 
 ### Functional Programming in Scala with the Turtle
@@ -141,7 +141,7 @@ trait Shapes {
 
 You can run your programs, or any of the included [examples](src/main/scala/com/github/ktonga/reactiveturtle/example), executing the `run` task in the SBT session and chosing one from the list.
 
-![tg-start](https://raw.githubusercontent.com/ktonga/reactive-turtle/master/screenshots/run-scala.png)
+![tg-start](https://raw.githubusercontent.com/ktonga/reactive-turtle/master/tutorial/run-scala.png)
 
 ### hAkking with the Turtle
 
@@ -198,7 +198,7 @@ class CommandsActor extends Actor {
 
 The way for running it is the same as for the Scala example.
 
-![run-akka](https://raw.githubusercontent.com/ktonga/reactive-turtle/master/screenshots/run-akka.png)
+![run-akka](https://raw.githubusercontent.com/ktonga/reactive-turtle/master/tutorial/run-akka.png)
 
 ### Ready!
 
